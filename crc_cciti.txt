@@ -1,0 +1,44 @@
+#include <stdio.h>
+#include <string.h>
+
+int xor2div(char *i, char *a, int mode) {
+  unsigned int j, k;
+  char g[81] = "100011";
+  strcpy(a, i);
+  if (mode)
+    strcat(a, "00000");
+  for (j = 0; j < strlen(i); j++)
+    if (*(a + j) == '1')
+      for (k = 0; k < strlen(g); k++) {
+        if ((*(a + j + k) == '0' && g[k] == '0') ||
+            (*(a + j + k) == '1' && g[k] == '1'))
+          *(a + j + k) = '0';
+        else
+          *(a + j + k) = '1';
+      }
+  for (j = 0; j < strlen(a); j++)
+    if (a[j] == '1')
+      return (1);
+  return (0);
+}
+
+void main() {
+  char i[81] = {'\0'}, a[81] = {'\0'}, r[81] = {'\0'};
+
+  printf("Enter the data in binary :");
+  scanf("%s", &i);
+
+  xor2div(i, a, 1);
+
+  printf("\nThe CRC-CCITI code is : %s%s", i, a + strlen(i));
+  printf("\nEnter the received data in binary :");
+  scanf("%s", &r);
+
+  if (strlen(a) == strlen(r)) {
+    if (!xor2div(r, a, 0))
+      printf("\nThe receiver data is error free");
+    else
+      printf("\nThe receiver data has error");
+  } else
+    printf("Wrong input, Enter the correct input");
+}

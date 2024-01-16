@@ -1,0 +1,26 @@
+#include <stdio.h>
+#include <string.h>
+#define max 100
+
+void main() {
+  char in[max] = {'\0'}, out[max] = {'\0'}, flag[9] = "01111110";
+  int inlen, i, j, count = 0;
+
+  printf("Enter the bits to be stuffed :\n");
+  scanf("%s", &in);
+  inlen = strlen(in);
+  strcpy(out, flag);
+  for (i = 0, j = 8; i < inlen; i++) {
+    if (in[i] == '1')
+      count++;
+    else
+      count = 0;
+    out[j++] = in[i];
+    if (count == 5) {
+      out[j++] = '0';
+      count = 0;
+    }
+  }
+  strcat(out, flag);
+  printf("The character stuffed frames is : %s", out);
+}

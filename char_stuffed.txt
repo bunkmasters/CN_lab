@@ -1,0 +1,26 @@
+#include <stdio.h>
+#include <string.h>
+#define max 100
+
+void main() {
+  char in[max] = {'\0'}, out[max] = {'\0'}, flag1[8] = "DLE STX",
+       flag2[8] = "DLE ETX";
+  int inlen, i, j;
+  printf("\nEnter the character to be stuffed :");
+  scanf("%s", &in);
+  printf("\nThe entered data is : %s", in);
+  inlen = strlen(in);
+  printf("\nThe length of data is : %d", inlen);
+  strcpy(out, flag1);
+  for (i = 0, j = 7; i < inlen; i++) {
+    if (in[i] == 'D' && in[i + 1] == 'L' && in[i + 2] == 'E') {
+      strcat(out, "DLEDLE");
+      i = i + 3;
+      j = j + 5;
+    }
+    out[j++] = in[i];
+  }
+  out[j] = '\0';
+  strcat(out, flag2);
+  printf("\nThe character stuffed frames is : %s ", out);
+}

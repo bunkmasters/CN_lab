@@ -1,0 +1,44 @@
+#include <stdio.h>
+#define bucketsize 1000
+#define n 5
+void bucketoutput(int *bucket, int op) {
+  if (*bucket > 0 && *bucket > op) {
+    *bucket = *bucket - op;
+    printf("\n %d - output remaining is %d", op, *bucket);
+  } else if (*bucket > 0) {
+    printf("\n the remaining data output is :%d", *bucket);
+    *bucket = 0;
+  }
+}
+
+int main() {
+  int bucket = 0, op, newpack, oldpack = 0, wt, i, j;
+
+  printf("\nEnter the output rate : ");
+  scanf("%d", &op);
+
+  for (i = 0; i < n; i++) {
+    newpack = rand() % 500;
+    printf("\n The new packet size is %d", newpack);
+    newpack = oldpack + newpack;
+    wt = rand() % 5;
+    if (newpack < bucketsize)
+      bucket = newpack;
+    else {
+      printf("\n %d - The new packet and old packet is greater than "
+             "bucketsize, reject",
+             newpack);
+      bucket = oldpack;
+    }
+    printf("\n the data in bucket is : %d", bucket);
+    printf("\n the new packet will arrive after %d sec", wt);
+    for (j = 0; j < wt; j++) {
+      bucketoutput(&bucket, op);
+      // sleep(1);
+    }
+    oldpack = bucket;
+  }
+  while (bucket > 0)
+    bucketoutput(&bucket, op);
+  return (0);
+}
